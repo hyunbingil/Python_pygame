@@ -36,6 +36,12 @@ character_height = character_size[1]
 character_x_pos = (screen_height / 2) - (character_width / 2)
 character_y_pos = screen_height - character_height - state_height
 
+# 캐릭터 이동 방향
+character_to_x = 0
+
+# 캐릭터 이동 속도
+character_speed = 5
+
 running = True
 
 while running:
@@ -46,8 +52,25 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # 3. 게임 캐릭터 위치 정의
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT: # 캐릭터 왼쪽으로
+                character_to_x -= character_speed
+            elif event.key == pygame.K_RIGHT: # 캐릭터 오른쪽으로
+                character_to_x += character_speed
+            elif event.key == pyame.K_SPACE:
+                pass
 
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                character_to_x = 0                
+
+    # 3. 게임 캐릭터 위치 정의
+    character_x_pos += character_to_x
+
+    if character_x_pos < 0:
+        character_x_pos = 0
+    elif character_x_pos > screen_width - character_width:
+        character_x_pos = screen_width - character_width    
     # 4. 충돌 처리
     
     # 5. 화면에 그리기
